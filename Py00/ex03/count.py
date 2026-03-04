@@ -1,12 +1,13 @@
 import string
+import sys
 from collections import Counter
 from typing import Literal
 
-def classify(c: str) -> Literal["space", "puntc", "upper", "lower", "other"]:
+def classify(c: str) -> Literal["space", "punct", "upper", "lower", "other"]:
     if c == " ":
         return "space"
-    elif c is string.punctuation:
-        return "puntc"
+    elif c in string.punctuation:
+        return "punct"
     elif c.isupper():
         return "upper"
     elif c.islower():
@@ -14,9 +15,9 @@ def classify(c: str) -> Literal["space", "puntc", "upper", "lower", "other"]:
     else:
         return "other"
 
-def text_analyser(text = None) -> None:
+def text_analyser(text=None) -> None:
     """
-    Takes a single string as argument and displays the sums of its upper-case characters, lower-case characters, punctuation characters and spaces.
+    Takes a single string as argument and displays the sums of its upper-case, lower-case, punctuation and spaces characters.
     If None or nothing is provided, the user is prompted to provide a string.
     If the argument is not a string, print an error message.
     """
@@ -38,3 +39,15 @@ def text_analyser(text = None) -> None:
     print(f'- {counts["lower"]} lower letter(s)')
     print(f'- {counts["punct"]} punctuation mark(s)')
     print(f'- {counts["space"]} space(s)')
+
+def main():
+    if len(sys.argv) > 2:
+        print("More than one argument detected")
+        return
+    elif len(sys.argv) == 2:
+        text_analyser(sys.argv[1])
+    else:
+        text_analyser()
+
+if __name__ == "__main__":
+    main()
