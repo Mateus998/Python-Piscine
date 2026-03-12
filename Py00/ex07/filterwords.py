@@ -13,7 +13,7 @@ def main():
         return
     num: int = 0
     try:
-        num = int(sys.argv[2])
+        num = int(sys.argv[1])
     except ValueError:
         print("ERROR")
         return

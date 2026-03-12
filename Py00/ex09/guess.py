@@ -1,4 +1,4 @@
-from random import randint
+import random
 
 references = [
     "Don't Panic.",
@@ -14,8 +14,8 @@ references = [
 ]
 
 def validate_guess(num: int, value: int) -> bool:
-    if value == 42:
-        print(references[randint(0, 9)])
+    if num == 42:
+        print(random.choice(references))
     if num == value:
         return True
     elif num > value:
@@ -25,7 +25,7 @@ def validate_guess(num: int, value: int) -> bool:
     return False
 
 
-def win_msg(value: int, n_guess: int) -> None:
+def win_msg(n_guess: int) -> None:
     if n_guess == 1:
         print("Congratulations! You got it on your first try!")
     else:
@@ -39,26 +39,26 @@ def main():
     print("Type 'exit' to end the game.")
     print("Good luck!\n")
 
-    value = randint(1, 99)
+    value = random.randint(1, 99)
     try:
         guess = input("What's your guess between 1 and 99?\n")
-        n_guess = 1
-        while guess != 'exit':
-            num = 0
+        n_guess = 0
+        while guess.strip().lower() != 'exit':
             try:
                 num = int(guess)
 
                 if num < 1 or num > 99:
                     print("That's not on the range (1 - 99)")
-                elif validate_guess(num, value):
-                    win_msg(value, n_guess)
-                    return
+                else:
+                    n_guess += 1
+                    if validate_guess(num, value):
+                        win_msg(n_guess)
+                        return
                 
             except ValueError:
                 print("That's not a number.")
 
             guess = input("What's your guess between 1 and 99?\n")
-            n_guess += 1
     except (KeyboardInterrupt, EOFError):
         pass
     print("Goodbye!")
