@@ -99,8 +99,8 @@ class LogProcessor(DataProcessor):
         
         items: list[dict[str, str]] = data if isinstance(data, list) else [data]
 
-        # dictList = [f"{d['log_level']}: {d['log_message']}" for d in items]
-        dictList = [': '.join(d.values()) for d in items]
+        dictList = [f"{d['log_level']}: {d['log_message']}" for d in items]
+        # dictList = [': '.join(d.values()) for d in items]
 
         for item in dictList:
             self.data.append((self.index, item))
