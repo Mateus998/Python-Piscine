@@ -1,0 +1,4 @@
+separar elementos de class e interagir objetos uns com os outros
+implementar game para teste
+
+conceito de classFactory
