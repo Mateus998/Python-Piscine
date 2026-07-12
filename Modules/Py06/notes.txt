@@ -1,0 +1,8 @@
+modulo sobre imports
+
+packeges - pastas com __init__.py que definem os modulos importaveis
+modulo - file com funções que serão importadas
+script - file que executa os modulos
+
+boas praticas para imports: import nao relativo, desde a raiz do projeto
+evitar imports circulares
