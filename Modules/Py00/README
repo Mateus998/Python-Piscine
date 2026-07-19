@@ -1,0 +1,118 @@
+# Py00 — Fundamentos de Python
+
+Este projeto apresenta a sintaxe básica de Python através de pequenos exercícios sobre
+uma horta comunitária. Cada arquivo deve conter apenas a função pedida e tratar sua
+própria entrada e saída.
+
+## Como testar
+
+Execute o programa auxiliar e escolha um exercício:
+
+```bash
+python3 main.py
+```
+
+Requisitos do enunciado: Python 3.10+, código compatível com `flake8` e, no exercício
+7, anotações de tipo verificáveis com `mypy`.
+
+## Principais conceitos
+
+### Funções
+
+Uma função agrupa instruções que realizam uma tarefa:
+
+```python
+def ft_hello_garden() -> None:
+    print("Hello, Garden Community!")
+```
+
+- `def` inicia a definição da função.
+- Os parâmetros ficam entre parênteses.
+- `-> None` indica que a função não devolve um valor.
+- A indentação define quais instruções pertencem à função.
+
+### Entrada, saída e variáveis
+
+- `input()` lê texto digitado pelo utilizador.
+- `print()` mostra um resultado no terminal.
+- Uma variável guarda um valor: `garden_name = input(...)`.
+- `int()` converte texto para número inteiro antes de um cálculo.
+
+### Operadores e f-strings
+
+- Operadores aritméticos: `+`, `-` e `*` calculam totais, diferenças e áreas.
+- Operadores de comparação: `>`, `>=` e `<=` produzem `True` ou `False`.
+- Uma f-string insere valores em texto: `f"Plot area: {length * width}"`.
+
+### Condicionais
+
+`if`, `elif` e `else` escolhem qual bloco executar de acordo com uma condição. Uma
+decisão curta também pode ser escrita como expressão condicional:
+
+```python
+result = "Water the plants!" if days > 2 else "Plants are fine"
+```
+
+### Repetição e recursão
+
+- `for` percorre uma sequência.
+- `range(1, 4)` produz os números 1, 2 e 3.
+- Uma função recursiva chama a si própria.
+- Toda recursão precisa de um caso base para terminar, como `if n <= 0: return`.
+
+### Strings
+
+Strings são valores de texto. Métodos como `.lower()` normalizam letras para comparar
+entradas, e `.capitalize()` coloca a primeira letra em maiúscula.
+
+### Anotações de tipo
+
+```python
+def ft_seed_inventory(seed_type: str, quantity: int, unit: str) -> None:
+```
+
+As anotações documentam os tipos esperados. Elas ajudam ferramentas como `mypy`, mas
+não impedem automaticamente que outro tipo seja passado durante a execução.
+
+### Dicionários
+
+O arquivo `ft_seed_inventory.py` também demonstra um dicionário: pares de chave e
+valor usados para associar uma unidade à sua mensagem. `messages.get(chave, padrao)`
+devolve a mensagem encontrada ou um valor padrão quando a chave não existe.
+
+### Imports e tratamento de erros
+
+O arquivo auxiliar `main.py` apresenta conceitos adicionais:
+
+- `import` carrega código de outro módulo;
+- `getattr()` obtém uma função pelo nome;
+- `try`/`except` captura erros e mostra mensagens mais claras;
+- `if __name__ == "__main__":` executa `main()` somente quando o arquivo é iniciado
+  diretamente.
+
+Esses recursos pertencem ao programa de testes; as soluções dos exercícios devem
+conter somente as funções solicitadas.
+
+## O que cada exercício pratica
+
+| Arquivo | Conceito principal |
+|---|---|
+| `ft_hello_garden.py` | função e `print()` |
+| `ft_garden_name.py` | `input()`, variável e f-string |
+| `ft_plot_area.py` | `int()` e multiplicação |
+| `ft_harvest_total.py` | acumulador, `for` e soma |
+| `ft_plant_age.py` | comparação e `if`/`else` |
+| `ft_water_reminder.py` | expressão condicional |
+| `ft_count_harvest.py` | iteração e recursão |
+| `ft_seed_inventory.py` | parâmetros, tipos, strings e seleção de mensagens |
+| `main.py` | imports, menu e tratamento de exceções |
+
+## Atenção ao enunciado
+
+As mensagens de saída são avaliadas exatamente. No código atual existem diferenças de
+pontuação, capitalização e texto em vários exercícios. Além disso, o enunciado pede
+`ft_count_harvest_iterative.py` e `ft_count_harvest_recursive.py` como arquivos
+separados, enquanto as duas funções estão em `ft_count_harvest.py`; por isso, as opções
+6 e `a` do `main.py` não conseguem importá-las atualmente. Antes da entrega, também é
+importante manter em cada solução apenas a função solicitada e conferir os nomes dos
+arquivos e funções.
