@@ -1,0 +1,194 @@
+# Py02 — Tratamento de Exceções
+
+Este módulo ensina a criar programas resistentes a dados inválidos e falhas durante a
+execução. O objetivo é detectar problemas, tratá-los de forma clara e permitir que o
+programa continue ou finalize com segurança.
+
+## Como executar
+
+Cada exercício pode ser executado diretamente:
+
+```bash
+python3 ft_first_exception.py
+python3 ft_different_errors.py
+```
+
+O projeto exige Python 3.10+, type hints em todas as funções e métodos, código
+compatível com `flake8` e verificação de tipos com `mypy`.
+
+## Principais conceitos
+
+### O que é uma exceção?
+
+Uma exceção é um objeto que representa um erro ocorrido durante a execução. Por
+exemplo, converter um texto que não contém um número gera `ValueError`:
+
+```python
+temperature = int("abc")
+```
+
+Se a exceção não for tratada, a execução termina. Com `try` e `except`, o programa
+pode reagir ao problema e continuar.
+
+### `try` e `except`
+
+O bloco `try` contém uma operação que pode falhar. O bloco `except` trata uma exceção
+específica:
+
+```python
+try:
+    temperature = int(temp_str)
+except ValueError as error:
+    print(f"Invalid temperature: {error}")
+```
+
+- `ValueError` define o tipo de erro que será capturado.
+- `as error` guarda o objeto da exceção numa variável.
+- O texto da exceção pode ser mostrado com `print(error)`.
+- Depois do tratamento, a execução continua após o bloco.
+
+É preferível capturar a exceção mais específica possível. `except Exception` captura
+quase todos os erros comuns, mas pode esconder problemas que não eram esperados.
+
+### Criar uma exceção com `raise`
+
+Nem todo valor incorreto provoca um erro automático. `raise` permite rejeitar
+manualmente um valor que viola uma regra do programa:
+
+```python
+if temperature < 0 or temperature > 40:
+    raise ValueError("Temperature out of limits")
+```
+
+Neste projeto, `int()` valida se o dado é um número e `raise` valida se a temperatura
+está no intervalo permitido.
+
+### Exceções nativas
+
+O arquivo `ft_different_errors.py` demonstra erros nativos com significados distintos:
+
+| Exceção | Situação |
+|---|---|
+| `ValueError` | o tipo está correto, mas o valor é inválido |
+| `ZeroDivisionError` | tentativa de divisão por zero |
+| `FileNotFoundError` | tentativa de abrir um arquivo inexistente |
+| `TypeError` | operação entre tipos incompatíveis |
+
+Vários `except` podem pertencer ao mesmo `try`. Python verifica os tratadores de cima
+para baixo, por isso os tipos específicos devem aparecer antes de `Exception`.
+
+### Exceções personalizadas
+
+Uma exceção personalizada é uma classe que herda de `Exception`:
+
+```python
+class GardenError(Exception):
+    pass
+
+class PlantError(GardenError):
+    pass
+```
+
+`PlantError` e `WaterError` são especializações de `GardenError`. Essa hierarquia
+permite duas estratégias:
+
+- capturar somente um problema específico com `except PlantError`;
+- capturar qualquer problema do jardim com `except GardenError`.
+
+O construtor `__init__()` pode definir uma mensagem padrão e `super().__init__()`
+entrega essa mensagem à classe pai.
+
+### O bloco `finally`
+
+`finally` sempre é executado, exista ou não uma exceção:
+
+```python
+try:
+    water_plant(plant_name)
+except PlantError as error:
+    print(error)
+finally:
+    print("Closing watering system")
+```
+
+Ele é usado para ações obrigatórias de limpeza, como fechar arquivos, conexões ou
+sistemas. O `finally` também executa quando há um `return` dentro do `try` ou do
+`except`.
+
+### Fluxo completo
+
+```text
+try
+ ├─ sucesso ────────────────┐
+ └─ exceção → except ───────┤
+                            ▼
+                         finally
+                            ▼
+                    continuação/fim
+```
+
+O `except` só executa quando captura uma exceção compatível. O `finally` executa em
+ambos os caminhos.
+
+### `match` e `case`
+
+As soluções usam correspondência estrutural, disponível desde Python 3.10, para
+selecionar uma operação:
+
+```python
+match operation_number:
+    case 0:
+        int("abc")
+    case 1:
+        10 / 0
+    case _:
+        return
+```
+
+Cada `case` corresponde a um valor. `case _` é o caminho padrão, semelhante ao
+`else` de uma estrutura condicional.
+
+### Ponto de entrada e type hints
+
+```python
+def input_temperature(temp_str: str) -> int:
+    return int(temp_str)
+
+
+if __name__ == "__main__":
+    test_temperature()
+```
+
+- `temp_str: str` indica que o parâmetro esperado é texto.
+- `-> int` indica que a função devolve um inteiro.
+- O bloco `__main__` executa os testes somente quando o arquivo é iniciado diretamente.
+
+Type hints ajudam o `mypy`, mas não capturam exceções nem validam valores durante a
+execução. No exercício de `TypeError`, o erro de tipos é intencional para demonstrar o
+tratamento.
+
+## O que cada exercício pratica
+
+| Arquivo | Conceito principal |
+|---|---|
+| `ft_first_exception.py` | conversão, `try` e `except ValueError` |
+| `ft_raise_exception.py` | validação de domínio e `raise` |
+| `ft_different_errors.py` | diferentes exceções nativas e vários `except` |
+| `ft_custom_errors.py` | classes de exceção, mensagens padrão e herança |
+| `ft_finally_block.py` | limpeza garantida com `finally` |
+
+## Atenção ao enunciado
+
+As f-strings de `ft_first_exception.py` e `ft_raise_exception.py` usam aspas internas
+iguais às externas; essa sintaxe não funciona em Python 3.10 ou 3.11. O segundo
+exercício também precisa testar `"abc"`, `"100"` e `"-50"`. Em
+`ft_different_errors.py`, o enunciado exige uma função `test_error_types()`, mas os
+testes estão diretamente no bloco `__main__`.
+
+No exercício de erros personalizados, ainda é necessário demonstrar separadamente a
+captura de `PlantError`, `WaterError` e da classe base `GardenError`. No último
+exercício, o enunciado autoriza `str.capitalize()`, enquanto o código usa
+`.istitle()`, e pede cenários completos com plantas válidas e inválidas. Existem ainda
+ajustes de type hints, espaçamento, linhas em branco e comprimento de linhas necessários
+para cumprir `flake8`. Antes da entrega, compare também as mensagens e a sequência das
+saídas com os exemplos do PDF.

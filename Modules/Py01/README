@@ -1,0 +1,168 @@
+# Py01 — Programação Orientada a Objetos
+
+Este módulo desenvolve um sistema de jardim para apresentar Programação Orientada a
+Objetos (POO) em Python. A ideia principal é representar plantas como objetos que
+guardam dados e possuem comportamentos próprios.
+
+## Como executar
+
+Cada exercício pode ser executado diretamente:
+
+```bash
+python3 ft_garden_intro.py
+python3 ft_plant_types.py
+```
+
+O projeto exige Python 3.10+, nomes de classes em `PascalCase`, funções e variáveis em
+`snake_case`, type hints em todas as funções e métodos, além de código compatível com
+`flake8` e `mypy`.
+
+## Principais conceitos
+
+### Ponto de entrada do programa
+
+```python
+if __name__ == "__main__":
+    # código executado diretamente
+```
+
+Quando um arquivo é executado, `__name__` recebe o valor `"__main__"`. Quando ele é
+importado, recebe o nome do módulo. Esse padrão permite incluir testes que não serão
+executados durante um `import`.
+
+Um script também pode começar com um *shebang*:
+
+```python
+#!/usr/bin/env python3
+```
+
+Em sistemas Unix, ele indica qual interpretador deve executar um arquivo que possui
+permissão de execução.
+
+### Classes e objetos
+
+Uma classe funciona como um modelo. Um objeto é uma instância criada a partir desse
+modelo:
+
+```python
+class Plant:
+    def __init__(self, name: str, height: float, age: int) -> None:
+        self.name = name
+        self.height = height
+        self.age = age
+
+rose = Plant("Rose", 25.0, 30)
+```
+
+- `class` define o modelo.
+- `__init__()` inicializa o objeto no momento da criação.
+- `self` representa a instância atual.
+- `self.name` e `self.height` são atributos que guardam o estado do objeto.
+- `rose` é uma instância de `Plant`.
+
+### Métodos e alteração de estado
+
+Métodos são funções definidas dentro de uma classe. Métodos como `grow()`, `age()` e
+`show()` permitem que cada planta altere ou apresente seu próprio estado.
+
+```python
+def grow(self) -> None:
+    self.height += self.growth_rate
+```
+
+`+=` atualiza um atributo usando seu valor atual. Um laço com `range(7)` pode chamar
+os métodos sete vezes para simular uma semana.
+
+### Encapsulamento e validação
+
+Encapsulamento controla o acesso aos dados internos. O enunciado pede a convenção de
+atributos protegidos, identificados por um sublinhado, como `self._height`.
+
+- `get_height()` e `get_age()` fornecem acesso aos valores.
+- `set_height()` e `set_age()` validam novos valores antes de armazená-los.
+- Se um valor for inválido, o estado anterior deve ser preservado.
+
+O código atual também apresenta `raise ValueError(...)` e `try`/`except`: `raise` cria
+uma exceção e `except` permite tratá-la sem encerrar abruptamente o programa.
+
+### Herança
+
+Herança cria classes especializadas reutilizando uma classe base:
+
+```python
+class Flower(Plant):
+    pass
+```
+
+`Flower`, `Tree` e `Vegetable` herdam os atributos e métodos de `Plant`. `Seed` forma
+uma cadeia de herança ao herdar de `Flower`, que já herda de `Plant`.
+
+### `super()` e sobrescrita
+
+`super()` chama a implementação da classe pai e evita duplicação:
+
+```python
+def show(self) -> None:
+    super().show()
+    print(f"Color: {self.color}")
+```
+
+Definir um método com o mesmo nome na classe filha é uma sobrescrita (*override*).
+Assim, cada tipo pode especializar `grow()`, `age()` ou `show()` mantendo o
+comportamento comum da classe base.
+
+### Polimorfismo
+
+Objetos de classes diferentes podem responder ao mesmo método de maneiras distintas.
+Por exemplo, uma função que recebe `Plant` pode chamar `show()` em uma planta, flor,
+árvore ou semente; Python escolhe a implementação correspondente ao objeto recebido.
+
+### Métodos estáticos e métodos de classe
+
+```python
+@staticmethod
+def is_older_than_year(age: int) -> bool:
+    return age > 365
+
+@classmethod
+def anonymous(cls) -> "Plant":
+    return cls("Unknown plant", 0.0, 0)
+```
+
+- Um `staticmethod` não recebe `self` nem `cls`; é útil para uma operação relacionada
+  à classe que não depende de uma instância.
+- Um `classmethod` recebe `cls` e pode funcionar como uma forma alternativa de criar
+  objetos. Usar `cls(...)` mantém o método compatível com subclasses.
+- `@staticmethod` e `@classmethod` são decoradores: eles modificam a forma como o
+  método é ligado à classe.
+
+### Classes aninhadas e composição
+
+Uma classe pode ser declarada dentro de outra. Em `ft_garden_analytics.py`, a classe
+`Statistics` representa o sistema interno de contagem de chamadas. Cada `Plant` cria
+e guarda uma instância desse componente em `self.stats`.
+
+Essa relação é composição: a planta **tem** estatísticas. Já a relação entre `Flower`
+e `Plant` é herança: uma flor **é uma** planta.
+
+### Anotações de tipo
+
+```python
+def display_stats(plant: Plant) -> None:
+    plant.stats.display()
+```
+
+Type hints documentam os valores esperados e ajudam o `mypy` a encontrar usos
+incompatíveis. Eles não fazem validação automática durante a execução.
+
+## O que cada exercício pratica
+
+| Arquivo | Conceito principal |
+|---|---|
+| `ft_garden_intro.py` | variáveis e ponto de entrada do programa |
+| `ft_garden_data.py` | classe, objetos, atributos e `show()` |
+| `ft_plant_growth.py` | métodos, mudança de estado e simulação com `range()` |
+| `ft_plant_factory.py` | construção e inicialização de várias instâncias |
+| `ft_garden_security.py` | encapsulamento, getters, setters e validação |
+| `ft_plant_types.py` | herança, `super()`, sobrescrita e polimorfismo |
+| `ft_garden_analytics.py` | métodos estáticos/de classe, classe aninhada e estatísticas |
