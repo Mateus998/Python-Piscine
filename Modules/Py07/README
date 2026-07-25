@@ -1,0 +1,45 @@
+# Py07 — Padrões de Desenho
+
+Exercícios sobre padrões de desenho com classes abstratas, usando criaturas,
+capacidades e estratégias de combate.
+
+## Executar
+
+Dentro da pasta `Py07`, execute o ficheiro pretendido:
+
+```bash
+python3 battle.py
+python3 capacitor.py
+python3 tournament.py
+```
+
+## Conceitos praticados
+
+| Ficheiro ou pacote | Conceitos |
+| --- | --- |
+| `ex0/` e `battle.py` | Abstract Factory e criação de famílias |
+| `ex1/` e `capacitor.py` | capacidades e herança múltipla |
+| `ex2/` e `tournament.py` | Strategy e comportamentos substituíveis |
+
+## Sintaxe principal
+
+```python
+class CreatureFactory(ABC):
+    @abstractmethod
+    def create_base(self) -> Creature:
+        pass
+
+
+class FlameFactory(CreatureFactory):
+    def create_base(self) -> Creature:
+        return Flameling()
+```
+
+- uma fábrica centraliza a criação de objetos relacionados;
+- uma classe abstrata define a interface das implementações;
+- herança múltipla permite adicionar capacidades independentes;
+- `isinstance()` verifica se uma criatura suporta uma capacidade;
+- o padrão Strategy separa um comportamento do objeto que o utiliza;
+- polimorfismo permite trocar fábricas e estratégias sem alterar o fluxo principal.
+
+Cada pasta `ex0`, `ex1` e `ex2` é um pacote através do respetivo `__init__.py`.

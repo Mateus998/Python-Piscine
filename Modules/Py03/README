@@ -1,0 +1,42 @@
+# Py03 — Coleções e Estruturas de Dados
+
+Exercícios sobre organização e transformação de dados com as principais coleções
+de Python: listas, tuplos, conjuntos e dicionários.
+
+## Executar
+
+Dentro da pasta `Py03`, execute o ficheiro pretendido:
+
+```bash
+python3 ft_command_quest.py argumento
+python3 ft_score_analytics.py 10 20 30
+```
+
+## Conceitos praticados
+
+| Ficheiro | Conceitos |
+| --- | --- |
+| `ft_command_quest.py` | argumentos com `sys.argv` e `enumerate()` |
+| `ft_score_analytics.py` | listas, conversão e funções estatísticas |
+| `ft_coordinate_system.py` | tuplos, desempacotamento e distância 3D |
+| `ft_achievement_tracker.py` | conjuntos, união, interseção e diferença |
+| `ft_inventory_system.py` | dicionários, chaves, valores e atualização |
+| `ft_data_stream.py` | geradores, `yield` e `next()` |
+| `ft_data_alchemist.py` | compreensões de listas e dicionários |
+
+## Sintaxe principal
+
+```python
+scores = [10, 20, 30]
+average = sum(scores) / len(scores)
+high_scores = [score for score in scores if score > average]
+```
+
+- listas guardam sequências mutáveis e ordenadas;
+- tuplos guardam sequências que não podem ser alteradas;
+- conjuntos mantêm apenas elementos únicos;
+- dicionários associam chaves a valores;
+- compreensões criam coleções de forma compacta;
+- `yield` produz valores sob pedido sem criar toda a sequência em memória.
+
+Os argumentos fornecidos no terminal ficam disponíveis em `sys.argv`.

@@ -1,0 +1,44 @@
+# Py05 — Classes Abstratas e Polimorfismo
+
+Exercícios sobre processamento de diferentes tipos de dados através de uma
+interface comum, usando classes abstratas e polimorfismo.
+
+## Executar
+
+Dentro da pasta `Py05`, execute o ficheiro pretendido:
+
+```bash
+python3 data_processor.py
+python3 data_pipeline.py
+```
+
+## Conceitos praticados
+
+| Ficheiro | Conceitos |
+| --- | --- |
+| `data_processor.py` | classes abstratas, herança e validação |
+| `data_stream.py` | polimorfismo e seleção de processadores |
+| `data_pipeline.py` | protocolos e plugins de exportação |
+
+## Sintaxe principal
+
+```python
+from abc import ABC, abstractmethod
+
+
+class DataProcessor(ABC):
+    @abstractmethod
+    def validate(self, data: object) -> bool:
+        pass
+```
+
+- `ABC` identifica uma classe base abstrata;
+- `@abstractmethod` obriga as subclasses a implementar um método;
+- a sobrescrita adapta o comportamento a cada tipo de dados;
+- o polimorfismo permite tratar objetos diferentes pela mesma interface;
+- `isinstance()` verifica o tipo de um valor;
+- `Protocol` define uma interface sem exigir herança direta;
+- `Any` e tipos união permitem representar entradas variadas.
+
+> Nota: o alias `type Number = int | float` usado no código requer Python 3.12
+> ou superior.

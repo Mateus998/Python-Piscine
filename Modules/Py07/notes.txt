@@ -1,8 +1,0 @@
-separar elementos de class e interagir objetos uns com os outros
-implementar game para teste
-
-conceito de classFactory - classe que criar objetos, como metodos diferentes para diferentes objetos
-
-classe strategy é chamada independente do objeto e dentro deve ser protegida e ser usada co try except
-
-modulo muito util para mecanicas de jogos baseados em objetos

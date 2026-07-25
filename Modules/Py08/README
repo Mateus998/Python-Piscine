@@ -1,0 +1,49 @@
+# Py08 — Ambientes e Dependências
+
+Exercícios sobre ambientes virtuais, gestão de dependências e configuração segura
+de aplicações através de variáveis de ambiente.
+
+## Executar
+
+Dentro da pasta `Py08`, execute o ficheiro pretendido:
+
+```bash
+python3 construct.py
+python3 loading.py
+python3 oracle.py
+```
+
+As dependências podem ser instaladas com `pip install -r requirements.txt` ou
+através de `poetry install`.
+
+## Conceitos praticados
+
+| Ficheiro | Conceitos |
+| --- | --- |
+| `construct.py` | deteção e utilização de ambientes virtuais |
+| `loading.py` | imports dinâmicos e análise de dados |
+| `requirements.txt` | dependências utilizadas pelo `pip` |
+| `pyproject.toml` | projeto e dependências geridos pelo Poetry |
+| `oracle.py` | variáveis de ambiente e ficheiros `.env` |
+| `.gitignore` | exclusão de configurações privadas |
+
+## Sintaxe principal
+
+```python
+import os
+import sys
+
+is_virtual = sys.prefix != sys.base_prefix
+mode = os.getenv("MATRIX_MODE", "development")
+```
+
+- `venv` cria um ambiente Python isolado;
+- `sys.prefix` ajuda a identificar o ambiente atual;
+- `importlib` permite carregar módulos dinamicamente;
+- `requirements.txt` lista dependências para o `pip`;
+- `pyproject.toml` configura o projeto e o Poetry;
+- `os.getenv()` lê variáveis de ambiente;
+- `python-dotenv` carrega configurações de um ficheiro `.env`.
+
+> Nunca guarde chaves ou credenciais reais no repositório. O ficheiro `.env` deve
+> permanecer ignorado e apenas um `.env.example` sem segredos deve ser partilhado.

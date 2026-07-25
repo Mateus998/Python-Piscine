@@ -1,0 +1,40 @@
+# Py04 — Operações com Ficheiros
+
+Exercícios sobre leitura, escrita e gestão segura de ficheiros e dos fluxos
+standard de entrada e saída.
+
+## Executar
+
+Dentro da pasta `Py04`, execute o ficheiro pretendido:
+
+```bash
+python3 ft_ancient_text.py test.txt
+python3 ft_archive_creation.py test.txt
+```
+
+## Conceitos praticados
+
+| Ficheiro | Conceitos |
+| --- | --- |
+| `ft_ancient_text.py` | abertura, leitura e fecho de ficheiros |
+| `ft_archive_creation.py` | transformação e escrita de texto |
+| `ft_stream_management.py` | `stdin`, `stdout` e `stderr` |
+| `ft_vault_security.py` | context manager com `with` |
+
+## Sintaxe principal
+
+```python
+try:
+    with open("test.txt", "r") as file:
+        content = file.read()
+except OSError as error:
+    print(error)
+```
+
+- `open()` abre um ficheiro;
+- o modo `"r"` lê, `"w"` escreve e `"r+"` permite ler e escrever;
+- `.read()` obtém o conteúdo e `.write()` grava texto;
+- `.close()` fecha um ficheiro aberto manualmente;
+- `with` fecha o ficheiro automaticamente;
+- `OSError` permite tratar falhas de acesso;
+- `sys.stdin`, `sys.stdout` e `sys.stderr` representam os fluxos standard.

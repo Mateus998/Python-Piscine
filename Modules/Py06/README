@@ -1,0 +1,43 @@
+# Py06 — Módulos, Pacotes e Imports
+
+Exercícios sobre organização de código em módulos e pacotes, explorando diferentes
+formas de importação e dependências entre ficheiros.
+
+## Executar
+
+Dentro da pasta `Py06`, execute o ficheiro pretendido:
+
+```bash
+python3 ft_alembic_0.py
+python3 ft_transmutation_2.py
+```
+
+## Conceitos praticados
+
+| Ficheiros | Conceitos |
+| --- | --- |
+| `ft_alembic_*.py` | importação de módulos e funções |
+| `ft_distillation_*.py` | exposição de funções pelo pacote |
+| `ft_transmutation_*.py` | imports absolutos e relativos |
+| `ft_kaboom_*.py` | dependências e imports circulares |
+| `alchemy/__init__.py` | inicialização e interface do pacote |
+| `alchemy/` | módulos, subpacotes e reutilização de código |
+
+## Sintaxe principal
+
+```python
+import alchemy.elements
+from alchemy.elements import create_air
+from .elements import create_earth
+```
+
+- `import modulo` importa um módulo completo;
+- `from modulo import nome` importa um elemento específico;
+- `as` cria um nome alternativo para o elemento importado;
+- `__init__.py` inicializa e controla a interface de um pacote;
+- imports absolutos partem do pacote principal;
+- imports relativos usam pontos para navegar dentro do pacote;
+- `__all__` define os nomes exportados pelo módulo.
+
+O ficheiro `ft_kaboom_1.py` demonstra intencionalmente o problema causado por uma
+dependência circular.
