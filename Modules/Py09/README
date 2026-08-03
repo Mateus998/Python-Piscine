@@ -1,0 +1,69 @@
+# Py09 — Modelos e Validação de Dados com Pydantic
+
+Exercícios sobre criação de modelos de dados robustos com Pydantic 2, usando um
+tema espacial para praticar restrições de campos, regras de negócio e modelos
+aninhados.
+
+## Executar
+
+Dentro da pasta `Py09`, ative o ambiente virtual e execute o ficheiro pretendido:
+
+```bash
+source env_space/bin/activate
+python3 space_station.py
+python3 alien_contact.py
+python3 space_crew.py
+```
+
+Caso seja necessário preparar outro ambiente, instale o Pydantic 2 com:
+
+```bash
+python3 -m pip install "pydantic>=2,<3"
+```
+
+## Conceitos praticados
+
+| Ficheiro | Conceitos |
+| --- | --- |
+| `space_station.py` | `BaseModel`, restrições com `Field`, valores predefinidos e validação automática |
+| `alien_contact.py` | enums, campos opcionais, `field_validator` e regras de negócio com `model_validator` |
+| `space_crew.py` | modelos aninhados, listas validadas e relações entre vários objetos |
+
+## Sintaxe principal
+
+```python
+from pydantic import BaseModel, Field, model_validator
+from typing import Self
+
+
+class Station(BaseModel):
+    station_id: str = Field(min_length=3, max_length=10)
+    power_level: float = Field(ge=0.0, le=100.0)
+    is_operational: bool = True
+
+    @model_validator(mode="after")
+    def validate_station(self) -> Self:
+        if self.power_level == 0 and self.is_operational:
+            raise ValueError("An operational station needs power")
+        return self
+```
+
+- `BaseModel` transforma uma classe num modelo cujos dados são validados;
+- `Field()` define limites de tamanho e de valor através de opções como
+  `min_length`, `max_length`, `ge` e `le`;
+- Pydantic converte valores compatíveis para o tipo anotado, incluindo datas para
+  `datetime`, e rejeita dados que não consegue converter;
+- valores atribuídos na classe funcionam como predefinições e `str | None`
+  representa um campo opcional;
+- `Enum` limita um campo a um conjunto conhecido de opções;
+- `@field_validator` valida ou transforma um campo específico antes de o guardar;
+- `@model_validator(mode="after")` aplica regras que dependem de vários campos e
+  deve devolver `self` quando a validação termina;
+- um campo como `list[CrewModel]` cria uma estrutura aninhada, validando primeiro
+  cada tripulante e depois a missão completa;
+- `ValidationError` reúne os problemas encontrados, enquanto `.errors()` e
+  `.error_count()` permitem apresentar informação detalhada sobre cada falha.
+
+As regras implementadas garantem, por exemplo, que contactos físicos estejam
+verificados, contactos telepáticos tenham testemunhas suficientes e missões possuam
+uma liderança ativa e experiência adequada à sua duração.
