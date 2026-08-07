@@ -1,0 +1,138 @@
+# Py10 — Programação Funcional
+
+Exercícios sobre programação funcional em Python, usando um tema de magia para
+praticar expressões lambda, funções de ordem superior, closures, ferramentas de
+`functools` e decorators.
+
+## Executar
+
+Dentro da pasta `Py10`, execute o ficheiro pretendido:
+
+```bash
+python3 lambda_spells.py
+python3 higher_magic.py
+python3 scope_mysteries.py
+python3 functools_artifacts.py
+python3 decorator_mastery.py
+```
+
+O projeto requer Python 3.10 ou superior e utiliza apenas a biblioteca standard,
+sem dependências externas.
+
+## Conceitos praticados
+
+| Ficheiro | Conceitos |
+| --- | --- |
+| `lambda_spells.py` | expressões lambda, `map()`, `filter()` e ordenação com `sorted()` |
+| `higher_magic.py` | funções de ordem superior, composição e funções como valores |
+| `scope_mysteries.py` | âmbito léxico, closures, estado privado e `nonlocal` |
+| `functools_artifacts.py` | `reduce`, `partial`, `lru_cache` e `singledispatch` |
+| `decorator_mastery.py` | decorators, `wraps`, validação, repetição e métodos estáticos |
+
+## Sintaxe principal
+
+```python
+from collections.abc import Callable
+from functools import wraps
+
+
+def power_amplifier(spell: Callable, multiplier: int) -> Callable:
+    def amplified(target: str, power: int) -> str:
+        return spell(target, power * multiplier)
+
+    return amplified
+
+
+def spell_timer(func: Callable) -> Callable:
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+
+    return wrapper
+```
+
+- uma expressão `lambda` cria uma função anónima formada por uma única expressão;
+- `map()` transforma elementos, `filter()` seleciona-os e `sorted()` cria uma
+  sequência ordenada;
+- uma função de ordem superior recebe funções como argumentos ou devolve uma nova
+  função;
+- uma closure mantém acesso às variáveis do âmbito em que foi criada;
+- `nonlocal` permite alterar uma variável pertencente à função envolvente;
+- `reduce()` combina uma sequência num único resultado e `partial()` fixa alguns
+  argumentos de uma função;
+- `lru_cache` guarda resultados anteriores e `singledispatch` escolhe uma
+  implementação de acordo com o tipo do primeiro argumento;
+- um decorator envolve uma função para lhe acrescentar comportamento;
+- `functools.wraps` preserva metadados como o nome e a documentação da função
+  decorada.
+
+## Respostas às perguntas do enunciado
+
+### Expressões lambda
+
+As expressões lambda tornam o código mais conciso porque permitem definir, no local
+onde são usadas, pequenas operações sem criar uma função nomeada com `def`. São
+adequadas para transformações simples e legíveis, como uma chave de ordenação ou a
+operação passada a `map()` e `filter()`.
+
+Uma função regular deve ser preferida quando a lógica tem várias instruções, será
+reutilizada, precisa de documentação ou testes próprios, ou quando dar-lhe um nome
+torna o objetivo mais claro. Uma lambda deve permanecer curta e limitada a uma única
+expressão.
+
+### Funções de ordem superior
+
+As funções de ordem superior promovem reutilização ao separar uma operação da forma
+como ela é combinada, validada ou transformada. Por exemplo, o mesmo amplificador
+pode receber qualquer feitiço compatível e devolver uma nova função, enquanto um
+combinador pode compor dois feitiços sem conhecer a sua implementação.
+
+As funções são cidadãos de primeira classe em Python porque são objetos: podem ser
+atribuídas a variáveis, guardadas em coleções, passadas como argumentos e devolvidas
+por outras funções.
+
+O tipo `Callable` deve ser importado de `collections.abc`. A função `callable()`
+verifica se um objeto aparenta poder ser chamado com `objeto()`. Um resultado
+verdadeiro não garante que uma chamada com determinados argumentos seja válida nem
+que a execução não produza uma exceção.
+
+### Closures e âmbito léxico
+
+Uma closure recorda o seu ambiente porque a função interna mantém referências para
+as variáveis livres da função envolvente, mesmo depois de esta terminar. Assim, cada
+chamada a uma fábrica pode criar estado independente, como acontece com dois
+contadores diferentes.
+
+O âmbito léxico resolve nomes de acordo com o local onde a função foi definida. Isto
+torna as dependências mais previsíveis, permite encapsular estado sem expô-lo e
+facilita a criação de funções configuradas, mantendo o namespace global limpo.
+
+`global` refere-se a uma variável do módulo, partilhada por todo o código que a usa,
+o que introduz estado global e dependências difíceis de controlar. `nonlocal` refere-se
+à variável do âmbito da função envolvente mais próxima. É permitido neste projeto
+porque possibilita alterar estado privado de uma closure, limitado a cada instância
+criada, sem recorrer a variáveis globais.
+
+### Ferramentas de `functools`
+
+`functools.reduce()` aplica repetidamente uma operação binária ao acumulador e ao
+elemento seguinte até transformar toda a sequência num único valor. Isso permite
+expressar agregações como soma, produto, mínimo ou máximo através da mesma estrutura.
+
+`lru_cache` implementa memoização ao guardar o resultado de cada conjunto de
+argumentos. Quando a chamada se repete, o valor é devolvido da cache em vez de ser
+calculado novamente. No Fibonacci recursivo, isto elimina cálculos repetidos e reduz
+drasticamente o tempo de execução, em troca de memória adicional. A técnica é mais
+segura para funções determinísticas com argumentos hashable.
+
+### Decorators e métodos estáticos
+
+Os decorators permitem separação de responsabilidades porque isolam comportamentos
+transversais, como medição de tempo, validação e novas tentativas, da lógica principal
+da função. O mesmo decorator pode ser reutilizado e combinado sem alterar a
+implementação da função decorada.
+
+Um método de instância recebe `self` automaticamente e pode consultar ou alterar o
+estado do objeto. Um `@staticmethod` não recebe `self` nem `cls`; funciona como uma
+função associada ao namespace da classe e é apropriado quando a operação está
+relacionada com a classe, mas não necessita do estado de uma instância.
